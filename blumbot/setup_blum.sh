@@ -21,6 +21,12 @@ sudo apt update && sudo apt install -y nodejs npm
 print_blue "Installing Python3..."
 sudo apt-get install -y python3
 
-# Run the Node.js script
-print_blue "Running .js script..."
-npm install && node blum.js
+# Install screen if not already installed
+print_blue "Installing screen..."
+sudo apt-get install -y screen
+
+# Run the node script in a new screen session without auto-detaching
+print_blue "Running script... (Press Ctrl+A+D to detach the screen and use 'screen -r blum-bot' to reattach)"
+
+# Create a new screen session named 'blum-bot' and run the script inside it
+screen -S blum-bot node blum.js

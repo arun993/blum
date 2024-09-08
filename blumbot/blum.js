@@ -72,7 +72,7 @@ class GameBot {
         await this.randomDelay();
         const response = await axios.post(url, data, { headers: await this.headers() });
         if (response.status === 200) {
-          await this.log('Đăng nhập thành công', 'success');
+          await this.log('Login successful', 'success');
           this.token = response.data.token.refresh;
           return this.token;
         } else {
@@ -124,7 +124,7 @@ class GameBot {
       const response = await axios.get('https://game-domain.blum.codes/api/v1/user/balance', { headers: await this.headers(this.token) });
       return response.data;
     } catch (error) {
-      await this.log(`Không thể lấy thông tin số dư: ${error.message}`, 'error');
+      await this.log(`Không thể lấy thông tin Balance: ${error.message}`, 'error');
       return null;
     }
   }
@@ -171,7 +171,7 @@ class GameBot {
       const response = await axios.post('https://game-domain.blum.codes/api/v1/farming/claim', {}, { headers: await this.headers(this.token) });
       return response.data;
     } catch (error) {
-      await this.log(`Không thể nhận số dư: ${error.message}`, 'error');
+      await this.log(`Không thể nhận Balance: ${error.message}`, 'error');
       return null;
     }
   }
@@ -194,7 +194,7 @@ class GameBot {
       const response = await axios.get(`https://user-domain.blum.codes/api/v1/friends/balance`, { headers: await this.headers(this.token) });
       return response.data;
     } catch (error) {
-      await this.log(`Không thể kiểm tra số dư bạn bè: ${error.message}`, 'error');
+      await this.log(`Không thể kiểm tra Balance bạn bè: ${error.message}`, 'error');
       return null;
     }
   }
@@ -205,7 +205,7 @@ class GameBot {
       const response = await axios.post(`https://user-domain.blum.codes/api/v1/friends/claim`, {}, { headers: await this.headers(this.token) });
       return response.data;
     } catch (error) {
-      await this.log(`Không thể nhận số dư bạn bè!`, 'error');
+      await this.log(`Không thể nhận Balance bạn bè!`, 'error');
       return null;
     }
   }
@@ -327,8 +327,8 @@ class GameBot {
         
         const balanceInfo = await this.getBalance();
         if (balanceInfo) {
-            await this.log('Đang lấy thông tin....', 'info');
-            await this.log(`Số dư: ${balanceInfo.availableBalance}`, 'success');
+            await this.log('Fetching information....', 'info');
+            await this.log(`Balance: ${balanceInfo.availableBalance}`, 'success');
             await this.log(`Vé chơi game: ${balanceInfo.playPasses}`, 'success');
 
             const tribeId = 'b372af40-6e97-4782-b70d-4fc7ea435022';
@@ -342,7 +342,7 @@ class GameBot {
             } else {
                 const endTime = DateTime.fromMillis(balanceInfo.farming.endTime);
                 const formattedEndTime = endTime.setZone('Asia/Ho_Chi_Minh').toFormat('dd/MM/yyyy HH:mm:ss');
-                await this.log(`Thời gian hoàn thành farm: ${formattedEndTime}`, 'info');
+                await this.log(`Farm completion time: ${formattedEndTime}`, 'info');
                 if (i === 0) {
                   this.firstAccountEndTime = endTime;
                 }
@@ -359,11 +359,11 @@ class GameBot {
                     }
                 } else {
                     const timeLeft = endTime.diff(currentTime).toFormat('hh:mm:ss');
-                    await this.log(`Thời gian còn lại để farming: ${timeLeft}`, 'info');
+                    await this.log(`Time remaining for farming: ${timeLeft}`, 'info');
                 }
             }
         } else {
-            await this.log('Không thể lấy thông tin số dư', 'error');
+            await this.log('Không thể lấy thông tin Balance', 'error');
         }
 
         if (hoinhiemvu) {
@@ -423,17 +423,17 @@ class GameBot {
 
         const friendBalanceInfo = await this.checkBalanceFriend();
         if (friendBalanceInfo) {
-          await this.log(`Số dư bạn bè: ${friendBalanceInfo.amountForClaim}`, 'info');
+          await this.log(`Balance bạn bè: ${friendBalanceInfo.amountForClaim}`, 'info');
           if (friendBalanceInfo.amountForClaim > 0) {
             const claimFriendBalanceResult = await this.claimBalanceFriend();
             if (claimFriendBalanceResult) {
-              await this.log('Đã nhận số dư bạn bè thành công!', 'success');
+              await this.log('Đã nhận Balance bạn bè thành công!', 'success');
             }
           } else {
-            await this.log('Không có số dư bạn bè để nhận!', 'info');
+            await this.log('Không có Balance bạn bè để nhận!', 'info');
           }
         } else {
-          await this.log('Không thể kiểm tra số dư bạn bè!', 'error');
+          await this.log('Không thể kiểm tra Balance bạn bè!', 'error');
         }
         
         if (balanceInfo && balanceInfo.playPasses > 0) {

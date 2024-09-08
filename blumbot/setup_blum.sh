@@ -21,6 +21,10 @@ sudo apt update && sudo apt install -y nodejs npm
 print_blue "Installing Python3..."
 sudo apt-get install -y python3
 
+# Install npm dependencies
+print_blue "Installing npm dependencies..."
+npm install
+
 # Install screen if not already installed
 print_blue "Installing screen..."
 sudo apt-get install -y screen

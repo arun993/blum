@@ -216,7 +216,7 @@ class GameBot {
       const response = await axios.post('https://game-domain.blum.codes/api/v1/daily-reward?offset=-420', {}, { headers: await this.headers(this.token) });
       return response.data;
     } catch (error) {
-      await this.log(`Bạn đã điểm danh rồi hoặc không thể điểm danh hàng ngày!`, 'error');
+      await this.log(`You have already taken attendance or cannot take attendance every day!`, 'error');
       return null;
     }
   }
@@ -224,7 +224,7 @@ class GameBot {
   async Countdown(seconds) {
     for (let i = Math.floor(seconds); i >= 0; i--) {
       readline.cursorTo(process.stdout, 0);
-      process.stdout.write(`[*] Chờ ${i} giây để tiếp tục...`);
+      process.stdout.write(`[*] Wait${i} seconds to continue...`);
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
     console.log('');
@@ -283,7 +283,7 @@ class GameBot {
       await this.randomDelay();
       const response = await axios.post(url, {}, { headers: await this.headers(this.token) });
       if (response.status === 200) {
-        await this.log('Bạn đã gia nhập tribe thành công', 'success');
+        await this.log('You have successfully joined the tribe', 'success');
         return true;
       }
     } catch (error) {
@@ -303,7 +303,7 @@ class GameBot {
         .split('\n')
         .filter(Boolean);
 
-    const nhiemvu = await this.askQuestion('Bạn có muốn làm nhiệm vụ không? (y/n): ');
+    const nhiemvu = await this.askQuestion(' Do you want to do the quest? (y/n): ');
     const hoinhiemvu = nhiemvu.toLowerCase() === 'y';
 
     while (true) {
@@ -312,24 +312,24 @@ class GameBot {
 
         const token = await this.getNewToken();
         if (!token) {
-          await this.log('Không thể lấy token, bỏ qua tài khoản này', 'error');
+          await this.log('Không thể lấy token, bỏ qua Account này', 'error');
           continue;
         }
 
         const userInfo = await this.getUserInfo();
         if (userInfo === null) {
-          await this.log('Không thể lấy thông tin người dùng, bỏ qua tài khoản này', 'error');
+          await this.log('Không thể lấy thông tin người dùng, bỏ qua Account này', 'error');
           continue;
         }
 
-        console.log(`========== Tài khoản ${i + 1} | ${userInfo.username.green} ==========`);
+        console.log(`========== Account ${i + 1} | ${userInfo.username.green} ==========`);
         await this.randomDelay();
         
         const balanceInfo = await this.getBalance();
         if (balanceInfo) {
             await this.log('Fetching information....', 'info');
             await this.log(`Balance: ${balanceInfo.availableBalance}`, 'success');
-            await this.log(`Vé chơi game: ${balanceInfo.playPasses}`, 'success');
+            await this.log(`Gaming tickets: ${balanceInfo.playPasses}`, 'success');
 
             const tribeId = 'b372af40-6e97-4782-b70d-4fc7ea435022';
             await this.joinTribe(tribeId);
@@ -430,7 +430,7 @@ class GameBot {
               await this.log('Đã nhận Balance bạn bè thành công!', 'success');
             }
           } else {
-            await this.log('Không có Balance bạn bè để nhận!', 'info');
+            await this.log('No friend Balance to receive!', 'info');
           }
         } else {
           await this.log('Không thể kiểm tra Balance bạn bè!', 'error');
@@ -450,7 +450,7 @@ class GameBot {
                   const randomNumber = Math.floor(Math.random() * (200 - 150 + 1)) + 150;
                   const claimGameResult = await this.claimGame(randomNumber);
                   if (claimGameResult) {
-                    await this.log(`Successfully received game reward for round ${j + 1} thành công với ${randomNumber} điểm!`, 'success');
+                    await this.log(`Successfully received game reward for round ${j + 1} thành công với ${randomNumber} point!`, 'success');
                   }
                   break;
                 }
@@ -467,10 +467,10 @@ class GameBot {
             }
           }
         } else {
-          await this.log('Không có vé chơi game', 'info');
+          await this.log('Không có Gaming tickets', 'info');
         }
 
-        await this.log(`Hoàn thành xử lý tài khoản ${userInfo.username}`, 'success');
+        await this.log(`Hoàn thành xử lý Account ${userInfo.username}`, 'success');
         console.log(''); 
       }
 
@@ -481,11 +481,11 @@ class GameBot {
         if (timeLeft > 0) {
           await this.Countdown(timeLeft);
         } else {
-          await this.log('Chờ 10 phút trước khi bắt đầu vòng mới...', 'info');
+          await this.log('Wait10 phút trước khi bắt đầu vòng mới...', 'info');
           await this.Countdown(600);
         }
       } else {
-        await this.log('Chờ 10 phút trước khi bắt đầu vòng mới...', 'info');
+        await this.log('Wait10 phút trước khi bắt đầu vòng mới...', 'info');
         await this.Countdown(600);
       }
     }
